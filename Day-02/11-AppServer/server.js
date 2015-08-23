@@ -5,12 +5,12 @@ var staticServer = require('./staticServer');
 var calculatorProcessor = require('./calculatorProcessor');
 var notFoundAction = require('./notFoundAction');
 
+var app = require('./app');
 
-var server = http.createServer(function(req, res){
-    dataParser(req, res);
-    staticServer(req, res);
-    calculatorProcessor(req,res);
-    notFoundAction(req, res);
-});
-server.listen(8080);
+app.use(dataParser);
+app.use(staticServer);
+app.use(calculatorProcessor);
+app.use(notFoundAction);
+
+http.createServer(app()).listen(8080);
 console.log('server listening on port 8080');
