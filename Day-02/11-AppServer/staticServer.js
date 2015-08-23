@@ -14,6 +14,14 @@ module.exports = function(req, res){
             res.end();
             return;
         }
-        fs.createReadStream(resourcePath).pipe(res);
+        /*fs.createReadStream(resourcePath).pipe(res);*/
+        var stream = fs.createReadStream(resourcePath, {encoding : 'utf8'});
+        stream.on('data', function(chunk){
+            console.log('serving static');
+            res.write(chunk);
+        });
+        stream.on('end', function(){
+            res.end();
+        })
     }
 }
